@@ -38,7 +38,7 @@ function Header() {
 
   return (
     <div>
-      <div className="head">
+      <div className="header">
         <div className="headerSearch">
           <div className="headerSearchItem">
             <MdLocationOn className="headerIcon locationIcon" />
