@@ -26,6 +26,9 @@ export default function useFetch(url, query = "") {
       }
     }
     fetchData();
+    return () => {
+      controller.abort();
+    };
   }, [query, url]);
 
   return { isLoading, data };
