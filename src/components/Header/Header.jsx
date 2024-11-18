@@ -6,13 +6,13 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import {
-  createSearchParams,
-  useNavigate,
-  } from "react-router-dom";
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
 function Header() {
-  const [destination, setDestination] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [destination, setDestination] = useState(
+    searchParams.get("destination") || ""
+  );
   const [openOptions, setOpnOptions] = useState(false);
   const [options, setOptions] = useState({
     Adult: 1,
@@ -28,7 +28,6 @@ function Header() {
   ]);
   const [openDate, setOpenDate] = useState(false);
   const navigate = useNavigate();
-  // const [searchParams, setSearchParams] = useSearchParams();
 
   const dateRef = useRef();
   useOutsideClick(dateRef, "dateRange", () => setOpenDate(false));
