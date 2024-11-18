@@ -13,7 +13,7 @@ export default function useFetch(url, query = "") {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(`${url}${query}`, { signal });
+        const { data } = await axios.get(`${url}?${query}`, { signal });
         setData(data);
       } catch (err) {
         if (!axios.isCancel()) {

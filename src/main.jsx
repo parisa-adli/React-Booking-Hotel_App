@@ -5,7 +5,11 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <BrowserRouter
+    future={{
+      v7_startTransition: true,
+    }}
+  >
     <React.StrictMode>
       <App />
     </React.StrictMode>
