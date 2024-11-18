@@ -9,8 +9,7 @@ import { format } from "date-fns";
 import {
   createSearchParams,
   useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+  } from "react-router-dom";
 
 function Header() {
   const [destination, setDestination] = useState("");
@@ -29,7 +28,7 @@ function Header() {
   ]);
   const [openDate, setOpenDate] = useState(false);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
 
   const dateRef = useRef();
   useOutsideClick(dateRef, "dateRange", () => setOpenDate(false));
