@@ -302,6 +302,9 @@
   height: 1.1rem;
 }
 
+.singleBookmarkTitle {
+  margin: 1rem 0;
+}
 /* form */
 
 .form .formControl {
