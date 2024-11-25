@@ -19,7 +19,7 @@ function SingleBookmark() {
       <button onClick={() => navigate(-1)} className="btn btn--back">
         &larr;
       </button>
-      <h2 className="singleBookmarkTitle">{currentBookmark.cityName}</h2>
+      <h2 className="h2Titles">{currentBookmark.cityName}</h2>
       <div className="bookmarkItem">
         <ReactCountryFlag svg countryCode={currentBookmark.countryCode} />
         &nbsp; <strong>{currentBookmark.cityName}</strong> &nbsp;
