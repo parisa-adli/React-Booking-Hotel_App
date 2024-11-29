@@ -1368,6 +1368,69 @@
       "longitude": "67.78003711374224",
       "host_location": "Baba Kot Pakistan",
       "id": 8
+    },
+    {
+      "cityName": "Istanbul",
+      "country": "Turkiye",
+      "countryCode": "TR",
+      "latitude": "41.05864414643029",
+      "longitude": "28.916015625000004",
+      "host_location": "Istanbul Turkiye",
+      "id": 9
+    },
+    {
+      "cityName": "Baie-James",
+      "country": "Canada",
+      "countryCode": "CA",
+      "latitude": "49.196064000723794",
+      "longitude": "-75.58593750000001",
+      "host_location": "Baie-James Canada",
+      "id": 10
+    },
+    {
+      "cityName": "Melbourne",
+      "country": "Australia",
+      "countryCode": "AU",
+      "latitude": "-37.426888345267265",
+      "longitude": "144.93164062500003",
+      "host_location": "Melbourne Australia",
+      "id": 11
+    },
+    {
+      "cityName": "Dubai",
+      "country": "United Arab Emirates (the)",
+      "countryCode": "AE",
+      "latitude": "25.047658466237557",
+      "longitude": "55.17333984375001",
+      "host_location": "Dubai United Arab Emirates (the)",
+      "id": 12
+    },
+    {
+      "cityName": "Abu Dhabi",
+      "country": "United Arab Emirates (the)",
+      "countryCode": "AE",
+      "latitude": "24.418079869814093",
+      "longitude": "54.39331054687501",
+      "host_location": "Abu Dhabi United Arab Emirates (the)",
+      "id": 13
+    },
+    {
+      "cityName": "Izmir",
+      "country": "Turkiye",
+      "countryCode": "TR",
+      "latitude": "38.382574703770246",
+      "longitude": "27.158203125000004",
+      "host_location": "Izmir Turkiye",
+      "id": 14
+    },
+    {
+      "cityName": "Przedborz",
+      "country": "Poland",
+      "countryCode": "PL",
+      "latitude": "50.99487141789123",
+      "longitude": "19.984817504882816",
+      "host_location": "Przedborz Poland",
+      "id": 15
     }
   ]
 }
