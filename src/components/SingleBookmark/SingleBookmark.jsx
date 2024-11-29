@@ -21,9 +21,11 @@ function SingleBookmark() {
       </button>
       <h2 className="h2Titles">{currentBookmark.cityName}</h2>
       <div className="bookmarkItem">
-        <ReactCountryFlag svg countryCode={currentBookmark.countryCode} />
-        &nbsp; <strong>{currentBookmark.cityName}</strong> &nbsp;
-        <span>{currentBookmark.country}</span>
+        <div>
+          <ReactCountryFlag svg countryCode={currentBookmark.countryCode} />
+          &nbsp; <strong>{currentBookmark.cityName}</strong> &nbsp;
+          <span>{currentBookmark.country}</span>
+        </div>
       </div>
     </div>
   );
