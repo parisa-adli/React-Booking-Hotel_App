@@ -1323,5 +1323,69 @@
       ]
     }
   ],
-  "bookmarks": []
+  "bookmarks": [
+    {
+      "cityName": "Skaftarhreppur",
+      "country": "Iceland",
+      "countryCode": "IS",
+      "latitude": "64.028933234179",
+      "longitude": "-18.632812500000004",
+      "host_location": "Skaftarhreppur Iceland",
+      "id": 1
+    },
+    {
+      "cityName": "America/Los_Angeles",
+      "country": "United States of America (the)",
+      "countryCode": "US",
+      "latitude": "33.29839499061643",
+      "longitude": "-117.86132812500001",
+      "host_location": "America/Los_Angeles United States of America (the)",
+      "id": 2
+    },
+    {
+      "cityName": "Przedborz",
+      "country": "Poland",
+      "countryCode": "PL",
+      "latitude": "50.995195542596385",
+      "longitude": "19.9867057800293",
+      "host_location": "Przedborz Poland",
+      "id": 5
+    },
+    {
+      "cityName": "East Imperial",
+      "country": "United States of America (the)",
+      "countryCode": "US",
+      "latitude": "33.24959866921125",
+      "longitude": "-114.97192382812501",
+      "host_location": "East Imperial United States of America (the)",
+      "id": 6
+    },
+    {
+      "cityName": "Sitno",
+      "country": "Poland",
+      "countryCode": "PL",
+      "latitude": "50.73080538676853",
+      "longitude": "23.345947265625004",
+      "host_location": "Sitno Poland",
+      "id": 7
+    },
+    {
+      "cityName": "Przedborz",
+      "country": "Poland",
+      "countryCode": "PL",
+      "latitude": "51.019930380166926",
+      "longitude": "20.00267028808594",
+      "host_location": "Przedborz Poland",
+      "id": 8
+    },
+    {
+      "cityName": "Przedborz",
+      "country": "Poland",
+      "countryCode": "PL",
+      "latitude": "51.038715718362916",
+      "longitude": "19.939842224121094",
+      "host_location": "Przedborz Poland",
+      "id": 9
+    }
+  ]
 }
