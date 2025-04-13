@@ -1,20 +1,43 @@
 ```markdown
 # Booking Hotel App
 
-This is a hotel booking application built with React and Vite. The app allows users to search for hotels, view details, bookmark locations, and manage user authentication. It also includes interactive maps and geolocation features.
+This is a hotel booking application built with **React** and **Vite**. The app allows users to search for hotels, view details, bookmark locations, and manage user authentication. It also includes interactive maps and geolocation features.
+
+---
 
 ## Features
 
-- **React Router**: For navigation and routing between pages.
-- **Context API & Reducers**: For state management (e.g., bookmarks, hotels, and authentication).
-- **Axios**: For making HTTP requests to the backend API.
-- **React-Leaflet**: For interactive maps and marker management.
-- **React-Hot-Toast**: For displaying notifications.
-- **React-Date-Range**: For date selection in hotel searches.
-- **Custom Hooks**: Includes reusable hooks like `useGeoLocation`, `useFetch`, and `useOutsideClick`.
-- **Protected Routes**: Ensures only authenticated users can access certain pages.
-- **JSON Server**: Simulates a backend API for development purposes.
-- **ESLint**: For maintaining code quality and consistency.
+1. **React Router**  
+   For navigation and routing between pages.
+
+2. **Context API & Reducers**  
+   For state management (e.g., bookmarks, hotels, and authentication).
+
+3. **Axios**  
+   For making HTTP requests to the backend API.
+
+4. **React-Leaflet**  
+   For interactive maps and marker management.
+
+5. **React-Hot-Toast**  
+   For displaying notifications.
+
+6. **React-Date-Range**  
+   For date selection in hotel searches.
+
+7. **Custom Hooks**  
+   Includes reusable hooks like `useGeoLocation`, `useFetch`, and `useOutsideClick`.
+
+8. **Protected Routes**  
+   Ensures only authenticated users can access certain pages.
+
+9. **JSON Server**  
+   Simulates a backend API for development purposes.
+
+10. **ESLint**  
+    For maintaining code quality and consistency.
+
+---
 
 ## Project Structure
 
@@ -33,31 +56,42 @@ public/
 ├── vite.svg          # Static assets
 ```
 
+---
+
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-username/booking-hotel-app.git
    cd booking-hotel-app
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
 
 4. Start the mock backend server:
+
    ```bash
    npm run server
    ```
 
-5. Open the app in your browser at `http://localhost:5173`.
+5. Open the app in your browser at:
 
+   ```
+   http://localhost:5173
+   ```
+
+---
 
 ## Tools and Libraries
 
@@ -69,5 +103,9 @@ public/
 - **React-Hot-Toast**: For notifications.
 - **ESLint**: For linting and code quality.
 
+---
 
+## License
+
+This project is licensed under the **MIT License**.
 ```
