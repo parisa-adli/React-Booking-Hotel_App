@@ -1386,6 +1386,15 @@
       "longitude": "19.939842224121094",
       "host_location": "Przedborz Poland",
       "id": 9
+    },
+    {
+      "cityName": "Istanbul",
+      "country": "Turkiye",
+      "countryCode": "TR",
+      "latitude": "41.0016075635998",
+      "longitude": "28.97356510162354",
+      "host_location": "Istanbul Turkiye",
+      "id": 10
     }
   ]
 }

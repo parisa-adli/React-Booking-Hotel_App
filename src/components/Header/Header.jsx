@@ -1,11 +1,5 @@
-import { MdLocationOn } from "react-icons/md";
-import {
-  HiCalendar,
-  HiLogout,
-  HiMinus,
-  HiPlus,
-  HiSearch,
-} from "react-icons/hi";
+import { MdLocationOn, MdLogout } from "react-icons/md";
+import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
 import { useRef, useState } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import "react-date-range/dist/styles.css"; // main style file
@@ -59,7 +53,7 @@ function Header() {
       options: JSON.stringify(options),
       destination,
     });
-    // setSearchParams(encodedParams); // update and show search detail in current url
+    setSearchParams(encodedParams); // update and show search detail in current url
     navigate({
       pathname: "/hotels",
       search: encodedParams.toString(),
@@ -221,7 +215,7 @@ function User() {
         <div>
           <span>{user.name}</span>
           <button>
-            <HiLogout onClick={handleLogout} className="icon" />
+            &nbsp; <MdLogout onClick={handleLogout} className="logout icon" />
           </button>
         </div>
       ) : (

@@ -18,8 +18,10 @@ export default function useFetch(url, query = "") {
       } catch (err) {
         if (!axios.isCancel()) {
           setData([]);
-          // console.log(err?.message);
-          toast.error(err?.message);
+          // console.log(err);
+          if (err?.message !== "canceled") {
+            toast.error(err?.message);
+          }
         }
       } finally {
         setIsLoading(false);
