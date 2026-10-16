@@ -32,7 +32,7 @@ function DatePicker({ checkIn, checkOut, onChange, months }) {
       direction="horizontal"
       showDateDisplay={false}
       moveRangeOnFirstSelection={false}
-      rangeColors={["#4f46e5"]}
+      rangeColors={["#13243f"]}
       // react-date-range needs a range; hide the placeholder until a date is picked
       className={`datePicker ${checkIn ? "" : "datePicker--empty"}`}
     />

@@ -12,7 +12,8 @@
 |---|---|---|
 | Dribbble — [Modern Hotel Booking Mobile App](https://dribbble.com/shots/27240483-Modern-Hotel-Booking-Mobile-App) | **Could not be inspected.** Dribbble served a bot challenge (HTTP 202, empty page) to automated fetches on 2026-10-16. Its exact palette, typography and screens are **unverified**. | Only the brief's described direction is used: premium, mobile-first, image-led cards, large photography, clear hierarchy, consistent radii. Items marked **(ref-inferred)** must be compared with the shot by a human (CONTEXT Q6). |
 | [airbnb.com](https://www.airbnb.com/) | Interaction-pattern reference, chosen by the repo owner. | Patterns only, not branding: pill search bar, image-first grid, list + map split, filter chips + filter sheet, heart on card photo, sticky price card on details, bottom tab bar on mobile. **Don't copy** Airbnb's logo, wordmark, the "Rausch" brand color or its proprietary font. |
-| Existing app | [Fact] | Keeps the indigo primary (`--primary-600`), rose accent (`--rose-500`), slate neutrals and camelCase global classes. |
+| Existing app | [Fact] | Keeps rose for favorites (`--rose-500`), slate neutrals and camelCase global classes. |
+| Stays logo (`src/assets/brand/`) | [Fact] | Source of the brand palette: navy `#13243F` (primary, headings) and amber `#F2A93B` (accent). The full logo shows in the header, the icon on narrow screens and as the favicon. |
 
 Tags used below: **(ref-inferred)** from the brief or the Dribbble description, unverified · **(airbnb-pattern)** · **(repo)** keeps existing behavior · **(new)** a decision made here.
 
@@ -21,7 +22,7 @@ Tags used below: **(ref-inferred)** from the brief or the Dribbble description, 
 ## 1. Design principles
 
 1. **Photo first.** Imagery carries the card; text is secondary and short. (ref-inferred)
-2. **Calm surfaces, one accent.** Neutral backgrounds, indigo for actions, rose only for favorites. (new)
+2. **Calm surfaces, one accent.** Neutral backgrounds, brand navy for actions, amber as a small accent, rose only for favorites. (new)
 3. **Honest data.** Snapshot prices and demo-only booking are always labeled (PRD §5.3).
 4. **Mobile first.** Design at 360–430 px, then enhance for tablet and desktop. (ref-inferred)
 5. **Keyboard and screen-reader parity.** Every pointer interaction has a keyboard path (FR-A11Y).
@@ -39,7 +40,10 @@ Define these on `:root` in `src/index.css`. **Existing names are kept** (marked 
 | `--bg-color` ✓ | `#f3f4f6` | App background (desktop) | — |
 | `--surface` | `#ffffff` | Cards, sheets, header | — |
 | `--surface-muted` | `#f8fafc` | Input fills, skeleton base | — |
-| `--text-900` | `#111827` | Headings, prices | 17.7:1 |
+| `--brand-navy` | `#13243f` | Logo navy; source of `--text-900` and `--primary-600` | 15.53:1 |
+| `--brand-amber` / `--accent-500` | `#f2a93b` | Logo amber: count badge, today dot. **Never text on white** (2.0:1); navy on amber is 7.78:1 | 2.0:1 ✗ text |
+| `--accent-100` | `#fdf1dd` | Amber tint fill | — |
+| `--text-900` | `#13243f` | Headings, prices | 15.53:1 |
 | `--text-700` ✓ | `#374151` | Body text | 10.3:1 |
 | `--text-600` (fixes an undefined var) | `#475569` | Secondary text on any surface | 7.6:1 |
 | `--text-500` ✓ | `#64748b` | Meta text **on white only** | 4.76:1 (4.32 on `--bg-color` ✗) |
@@ -48,16 +52,16 @@ Define these on `:root` in `src/index.css`. **Existing names are kept** (marked 
 | `--text-100` ✓ | `#f1f5f9` | Subtle fills | — |
 | `--border` | `#e2e8f0` | Card and input borders (decorative) | — |
 | `--border-strong` | `#64748b` | Input borders that must meet 3:1 | 4.76:1 |
-| `--primary-700` ✓ | `#4338ca` | Primary hover/pressed, links | 7.9:1 |
-| `--primary-600` ✓ | `#4f46e5` | Primary buttons (white text 6.29:1), focus ring | 6.29:1 |
-| `--primary-100` ✓ | `#e0e7ff` | Selected chip bg (text `--primary-700` 6.41:1) | — |
+| `--primary-700` ✓ | `#0b1629` | Primary hover/pressed, links | 18.09:1 |
+| `--primary-600` ✓ | `#13243f` | Primary buttons (white text 15.53:1), focus ring | 15.53:1 |
+| `--primary-100` ✓ | `#e6ebf3` | Selected chip/bookmark bg (navy text 12.98:1) | — |
 | `--rose-500` ✓ | `#f43f5e` | Filled heart icon (UI ≥ 3:1 ✓ 3.67) | 3.67:1 |
 | `--rose-600` | `#e11d48` | Rose **text** | 4.70:1 |
 | `--amber-700` | `#b45309` | Star/rating text | 5.02:1 |
 | `--success-700` | `#15803d` | "Instant bookable", success | 5.02:1 |
 | `--danger-700` | `#b91c1c` | Errors | 6.47:1 |
-| `--scrim` | `rgb(17 24 39 / 0.55)` | Sheet/dialog backdrop; image text overlays | — |
-| `--image-gradient` | `linear-gradient(to top, rgb(17 24 39 / .6), transparent 60%)` | Text over photos (ref-inferred) | White text on darkest 40% ≥ 4.5 |
+| `--scrim` | `rgb(19 36 63 / 0.55)` | Sheet/dialog backdrop; image text overlays | — |
+| `--image-gradient` | `linear-gradient(to top, rgb(19 36 63 / .72), transparent 65%)` | Text over photos (ref-inferred) | White text on darkest 40% ≥ 4.5 |
 
 Dark mode is **out of MVP scope**. If added, the verified pairs are: `#e2e8f0` on `#0f172a` (14.5:1), `#94a3b8` on `#0f172a` (6.96:1), primary `#818cf8` (5.98:1), rose `#fb7185` (6.63:1).
 

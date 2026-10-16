@@ -98,14 +98,15 @@ main:focus {
 }
 
 .brandMark {
-  display: grid;
-  place-items: center;
+  display: none;
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--primary-600);
-  color: var(--white);
-  font-size: 1.1rem;
+}
+
+.brandName {
+  display: block;
+  height: 30px;
+  width: auto;
 }
 
 .header .searchBar {
@@ -115,6 +116,10 @@ main:focus {
 
 .header:not(.header--home) .brandName {
   display: none;
+}
+
+.header:not(.header--home) .brandMark {
+  display: block;
 }
 
 .headerNav {
@@ -158,8 +163,8 @@ main:focus {
   height: 20px;
   padding: 0 6px;
   border-radius: var(--radius-pill);
-  background: var(--rose-600);
-  color: var(--white);
+  background: var(--accent-500);
+  color: var(--brand-navy);
   font-size: var(--fs-xs);
   font-weight: 700;
   line-height: 1;
@@ -245,7 +250,11 @@ main:focus {
 @media (min-width: 1024px) {
   .header .brandName,
   .header:not(.header--home) .brandName {
-    display: inline;
+    display: block;
+  }
+
+  .header:not(.header--home) .brandMark {
+    display: none;
   }
 }
 
@@ -519,7 +528,7 @@ main:focus {
 }
 
 .searchIcon--rose {
-  color: var(--rose-500);
+  color: var(--amber-700);
 }
 
 .searchIcon--primary {
@@ -711,7 +720,7 @@ main:focus {
 }
 
 .datePicker .rdrDayToday .rdrDayNumber span:after {
-  background: var(--rose-500);
+  background: var(--accent-500);
 }
 
 .datePicker--empty .rdrStartEdge,

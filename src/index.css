@@ -5,11 +5,13 @@
   -webkit-font-smoothing: antialiased;
   color-scheme: light;
 
-  /* color */
+  /* color: brand palette comes from src/assets/brand (navy + amber) */
+  --brand-navy: #13243f;
+  --brand-amber: #f2a93b;
   --bg-color: #f3f4f6;
   --surface: #ffffff;
   --surface-muted: #f8fafc;
-  --text-900: #111827;
+  --text-900: var(--brand-navy);
   --text-700: #374151;
   --text-600: #475569;
   --text-500: #64748b; /* meta text on white only */
@@ -19,16 +21,18 @@
   --white: #fff;
   --border: #e2e8f0;
   --border-strong: #64748b;
-  --primary-700: #4338ca;
-  --primary-600: #4f46e5;
-  --primary-100: #e0e7ff;
+  --primary-700: #0b1629;
+  --primary-600: var(--brand-navy);
+  --primary-100: #e6ebf3;
+  --accent-500: var(--brand-amber);
+  --accent-100: #fdf1dd;
   --rose-500: #f43f5e;
   --rose-600: #e11d48;
   --amber-700: #b45309;
   --success-700: #15803d;
   --danger-700: #b91c1c;
-  --scrim: rgb(17 24 39 / 0.55);
-  --image-gradient: linear-gradient(to top, rgb(17 24 39 / 0.72), rgb(17 24 39 / 0) 65%);
+  --scrim: rgb(19 36 63 / 0.55);
+  --image-gradient: linear-gradient(to top, rgb(19 36 63 / 0.72), rgb(19 36 63 / 0) 65%);
 
   /* type */
   --fs-display: 2rem;

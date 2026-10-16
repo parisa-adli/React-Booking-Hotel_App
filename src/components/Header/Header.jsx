@@ -4,6 +4,8 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { useBookmark } from "../context/BookmarkListContext";
 import SearchBar from "../SearchBar/SearchBar";
+import logo from "../../assets/brand/stays-logo.svg";
+import logoIcon from "../../assets/brand/stays-icon.svg";
 
 function Header() {
   const { pathname } = useLocation();
@@ -13,10 +15,8 @@ function Header() {
   return (
     <header className={`header ${isHome ? "header--home" : ""}`}>
       <Link to="/" className="brand" aria-label="Stays home">
-        <span className="brandMark" aria-hidden="true">
-          S
-        </span>
-        <span className="brandName">Stays</span>
+        <img src={logoIcon} alt="" className="brandMark" />
+        <img src={logo} alt="" className="brandName" />
       </Link>
       {!isHome && <SearchBar />}
       <nav className="headerNav" aria-label="Account">
