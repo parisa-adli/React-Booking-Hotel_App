@@ -79,7 +79,7 @@ function DestinationField({ cities, value, onChange, error, onErrorChange }) {
   const activeId = activeIndex >= 0 ? `${id}-opt-${activeIndex}` : undefined;
 
   return (
-    <div className="searchField searchField--destination">
+    <div className={`searchField searchField--destination ${isOpen ? "is-open" : ""}`}>
       <label htmlFor={id} className="searchLabel">
         Where
       </label>

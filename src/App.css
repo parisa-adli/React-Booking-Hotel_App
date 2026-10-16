@@ -448,19 +448,21 @@ main:focus {
 }
 
 .searchForm--inline {
+  position: relative;
   display: flex;
   align-items: stretch;
   width: 100%;
   max-width: 860px;
   margin: 0 auto;
-  padding: var(--space-1);
-  padding-left: var(--space-2);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-2);
+  transition: background-color var(--dur-base) var(--ease);
 }
 
+/* Segments behave like Airbnb's: gray pill on hover, and while one is open
+   the bar turns gray and the open segment lifts as a white pill. */
 .searchForm--inline .searchField {
   position: relative;
   flex: 1;
@@ -468,12 +470,14 @@ main:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-1) var(--space-4);
+  padding: var(--space-2) var(--space-6);
   border-radius: var(--radius-pill);
+  transition: background-color var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease);
 }
 
-.searchForm--inline .searchField:hover {
-  background: var(--text-100);
+.searchForm--inline .searchField:not(.is-open):hover:not(:has(.popover:hover)) {
+  background: var(--fill-hover);
 }
 
 .searchForm--inline .searchField + .searchField::before {
@@ -484,6 +488,51 @@ main:focus {
   height: 50%;
   width: 1px;
   background: var(--border);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+
+/* hide the dividers on both sides of a hovered or open segment */
+.searchForm--inline .searchField:hover::before,
+.searchForm--inline .searchField:hover + .searchField::before,
+.searchForm--inline .searchField.is-open::before,
+.searchForm--inline .searchField.is-open + .searchField::before {
+  opacity: 0;
+}
+
+.searchForm--inline:has(.is-open) {
+  background: var(--fill-hover);
+  border-color: transparent;
+}
+
+.searchForm--inline:has(.is-open) .searchField:hover:not(.is-open):not(:has(.popover:hover)) {
+  background: var(--fill-pressed);
+}
+
+.searchForm--inline .searchField.is-open {
+  background: var(--surface);
+  box-shadow: var(--shadow-3);
+}
+
+.searchForm--inline .searchIcon {
+  display: none;
+}
+
+/* clicking anywhere in the Where segment focuses its input */
+.searchForm--inline .searchField--destination .searchLabel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  cursor: text;
+}
+
+.searchForm--inline .searchField--destination .searchInput {
+  position: relative;
+  z-index: 1;
+}
+
+.searchForm--inline .searchControl {
+  min-height: 22px;
 }
 
 .searchForm--inline .searchField--destination {
@@ -552,9 +601,19 @@ main:focus {
   outline: none;
 }
 
-.searchField--destination:focus-within {
+.searchForm--stacked .searchField--destination:focus-within {
   background: var(--text-100);
   box-shadow: 0 0 0 2px var(--primary-600);
+}
+
+/* the open segment shows a keyboard focus ring only for keyboard users */
+.searchForm--inline .searchField:has(.searchTrigger:focus-visible) {
+  outline: 2px solid var(--primary-600);
+  outline-offset: -2px;
+}
+
+.searchForm--inline .searchTrigger:focus-visible {
+  outline: none;
 }
 
 .searchForm--inline .fieldError {
@@ -570,16 +629,47 @@ main:focus {
 }
 
 .searchSubmit {
-  display: grid;
-  place-items: center;
-  width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 48px;
   height: 48px;
+  padding: 0 14px;
+  margin: 0 var(--space-2) 0 var(--space-1);
   flex-shrink: 0;
   align-self: center;
-  border-radius: 50%;
+  border-radius: var(--radius-pill);
   background: var(--primary-600);
   color: var(--white);
-  transition: background-color var(--dur-fast) var(--ease);
+  font-weight: 600;
+  transition: background-color var(--dur-fast) var(--ease),
+    padding var(--dur-base) var(--ease);
+}
+
+.searchSubmitText {
+  display: none;
+}
+
+/* widens into "Search" while the bar is active, like Airbnb */
+.searchForm--inline:has(.is-open) .searchSubmit {
+  padding: 0 var(--space-5) 0 var(--space-4);
+}
+
+.searchForm--inline:has(.is-open) .searchSubmitText {
+  display: inline;
+}
+
+.searchBar--hero .searchForm--inline .searchField {
+  min-height: 66px;
+}
+
+.searchBar--hero .searchSubmit {
+  height: 48px;
+}
+
+.searchBar--header .searchForm--inline .searchField {
+  padding: var(--space-1) var(--space-5);
 }
 
 .searchSubmit:not(:disabled):hover {

@@ -83,7 +83,7 @@ function DatesField({ checkIn, checkOut, onChange, inline = false, months = 1 })
   }
 
   return (
-    <div className="searchField">
+    <div className={`searchField ${isOpen ? "is-open" : ""}`}>
       <span className="searchLabel" id={`${id}-label`}>
         When
       </span>

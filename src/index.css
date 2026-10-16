@@ -21,6 +21,8 @@
   --white: #fff;
   --border: #e2e8f0;
   --border-strong: #64748b;
+  --fill-hover: #ebeef3; /* search segment hover */
+  --fill-pressed: #dde3ea; /* segment hover while the bar is active */
   --primary-700: #0b1629;
   --primary-600: var(--brand-navy);
   --primary-100: #e6ebf3;

@@ -74,7 +74,7 @@ function GuestsField({ guests, onChange, inline = false }) {
   }
 
   return (
-    <div className="searchField">
+    <div className={`searchField ${isOpen ? "is-open" : ""}`}>
       <span className="searchLabel" id={`${id}-label`}>
         Who
       </span>

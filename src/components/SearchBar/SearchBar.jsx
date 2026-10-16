@@ -59,7 +59,7 @@ function SearchForm({ draft, setDraft, layout, onSubmit }) {
         aria-label="Search"
       >
         <HiSearch aria-hidden="true" className="searchSubmitIcon" />
-        {isStacked && <span>Search</span>}
+        <span className={isStacked ? undefined : "searchSubmitText"}>Search</span>
       </button>
     </form>
   );
