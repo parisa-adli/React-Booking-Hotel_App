@@ -56,7 +56,7 @@ MVP critical path: P0-1 → P0-2 → P0-3 → P1-1 → P1-2 → P1-3 → P1-4 �
 - **Deps:** none.
 - **Files:** `src/hooks/useFetch.js`, `context/AuthProvider.jsx`, `SingleBookmark/SingleBookmark.jsx`, `Loader.jsx`, `App.css`, `Map/Map.jsx`, `SingleHotel/SingleHotel.jsx`, `hooks/useOutsideClick.js`.
 - **Requirements:**
-  - `axios.isCancel(err)`
+  - `axios.isCancel(err)` (replacing the `"canceled"` message check added in `dd0fa57`)
   - initialState `user: null`
   - use the provided `isLoading`
   - define or replace the undefined CSS vars
@@ -307,7 +307,7 @@ MVP critical path: P0-1 → P0-2 → P0-3 → P1-1 → P1-2 → P1-3 → P1-4 �
 ### [ ] P10-2 Final verification and docs sync
 - **Objective:** release-ready MVP.
 - **Deps:** all.
-- **Files:** `CONTEXT.md`, `docs/PRD.md`, `README.md` (replace the Vite template text with project setup, data import steps and attribution).
+- **Files:** `CONTEXT.md`, `docs/PRD.md`, `README.md` (fix the project structure section, clone URL and license statement per CONTEXT Q7; add data import steps and attribution).
 - **Acceptance:** `npm run lint`, `npm test` and `npm run build` are clean. The manual journey script below passes. The docs reflect the final state, with open questions closed or carried forward.
 - **Manual journey script:**
   1. `npm run server`, `npm run dev`.
