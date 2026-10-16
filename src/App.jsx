@@ -8,7 +8,6 @@ import Explore from "./components/Explore/Explore";
 import AppLayout from "./components/AppLayout/AppLayout";
 import Hotels from "./components/Hotels/Hotels";
 import SingleHotel from "./components/SingleHotel/SingleHotel";
-import Saved from "./components/Saved/Saved";
 import BookmarkLayout from "./components/BookmarkLayout/BookmarkLayout";
 import Bookmark from "./components/Bookmark/Bookmark";
 import SingleBookmark from "./components/SingleBookmark/SingleBookmark";
@@ -18,7 +17,6 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { StateMessage } from "./components/States/States";
 import AuthContextProvider from "./components/context/AuthProvider";
 import CitiesProvider from "./components/context/CitiesProvider";
-import FavoritesProvider from "./components/context/FavoritesProvider";
 import BookmarkListProvider from "./components/context/BookmarkListContext";
 import HotelsProvider from "./components/context/HotelsProvider";
 
@@ -42,7 +40,6 @@ function App() {
   return (
     <AuthContextProvider>
       <CitiesProvider>
-        <FavoritesProvider>
           <BookmarkListProvider>
             <HotelsProvider>
               <Toaster position="top-center" toastOptions={{ className: "toast" }} />
@@ -57,7 +54,6 @@ function App() {
                     <Route index element={<Hotels />} />
                   </Route>
                   <Route path="/hotels/:id" element={<SingleHotel />} />
-                  <Route path="/saved" element={<Saved />} />
                   <Route
                     path="/bookmark"
                     element={
@@ -78,7 +74,6 @@ function App() {
               <BottomNav />
             </HotelsProvider>
           </BookmarkListProvider>
-        </FavoritesProvider>
       </CitiesProvider>
     </AuthContextProvider>
   );

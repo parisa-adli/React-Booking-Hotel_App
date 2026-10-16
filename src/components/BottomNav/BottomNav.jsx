@@ -6,16 +6,16 @@ import {
   HiOutlineUserCircle,
 } from "react-icons/hi";
 import { useAuth } from "../context/AuthProvider";
-import { useFavorites } from "../context/FavoritesProvider";
+import { useBookmark } from "../context/BookmarkListContext";
 
 function BottomNav() {
   const { isAuthenticated, user } = useAuth();
-  const { ids } = useFavorites();
+  const { bookmarks } = useBookmark();
 
   const items = [
     { to: "/", label: "Explore", icon: HiOutlineSearch, end: true },
-    { to: "/saved", label: "Saved", icon: HiOutlineHeart, badge: ids.length },
-    { to: "/bookmark", label: "Places", icon: HiOutlineLocationMarker },
+    { to: "/hotels", label: "Places", icon: HiOutlineLocationMarker },
+    { to: "/bookmark", label: "Bookmarks", icon: HiOutlineHeart, badge: bookmarks.length },
     {
       to: "/login",
       label: isAuthenticated ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : "Log in",

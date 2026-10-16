@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiHeart, HiOutlineHeart, HiStar } from "react-icons/hi";
 import { MdHotel } from "react-icons/md";
-import { useFavorites } from "../context/FavoritesProvider";
+import { useBookmark } from "../context/BookmarkListContext";
 import {
   formatPrice,
   imageSrc,
@@ -58,17 +58,17 @@ export function Rating({ rating, reviewCount, showCount = false }) {
 }
 
 export function FavoriteButton({ hotel, className = "" }) {
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const saved = isFavorite(hotel.id);
+  const { getHotelBookmark, toggleHotelBookmark } = useBookmark();
+  const saved = Boolean(getHotelBookmark(hotel.id));
   return (
     <button
       type="button"
       className={`favoriteBtn ${saved ? "is-saved" : ""} ${className}`}
       aria-pressed={saved}
-      aria-label={`Save ${hotel.name}`}
+      aria-label={`Bookmark ${hotel.name}`}
       onClick={(event) => {
         event.preventDefault();
-        toggleFavorite(hotel.id, hotel.name);
+        toggleHotelBookmark(hotel);
       }}
     >
       {saved ? <HiHeart aria-hidden="true" /> : <HiOutlineHeart aria-hidden="true" />}
@@ -94,6 +94,7 @@ function HotelCard({
   variant = "grid",
   onActivate,
   headingLevel = 3,
+  action,
 }) {
   const Heading = `h${headingLevel}`;
   const badge = hotel.isSuperhost ? "Superhost" : hotel.rating >= 4.9 ? "Guest favourite" : null;
@@ -114,7 +115,7 @@ function HotelCard({
           sizes={variant === "compact" ? "88px" : undefined}
         />
         {badge && variant === "grid" && <span className="mediaBadge">{badge}</span>}
-        <FavoriteButton hotel={hotel} className="hotelCardFavorite" />
+        {!action && <FavoriteButton hotel={hotel} className="hotelCardFavorite" />}
       </div>
       <div className="hotelCardBody">
         <div className="hotelCardTitleRow">
@@ -137,6 +138,7 @@ function HotelCard({
           <Price price={hotel.price} currency={hotel.currency} />
         </p>
       </div>
+      {action && <div className="hotelCardAction">{action}</div>}
     </article>
   );
 }

@@ -107,12 +107,14 @@ function BookmarkListProvider({ children }) {
     try {
       const { data } = await api.post("/bookmarks", newBookmark);
       dispatch({ type: "bookmark/created", payload: data });
+      return true;
     } catch (error) {
       toast.error(error.message);
       dispatch({
         type: "rejected",
         payload: error.message,
       });
+      return false;
     }
   }
 
@@ -122,13 +124,42 @@ function BookmarkListProvider({ children }) {
     try {
       await api.delete(`/bookmarks/${id}`);
       dispatch({ type: "bookmark/deleted", payload: id });
+      return true;
     } catch (error) {
       toast.error(error.message);
       dispatch({
         type: "rejected",
         payload: error.message,
       });
+      return false;
     }
+  }
+
+  // A hotel bookmark keeps the place fields the list and map use, plus the
+  // hotel it came from.
+  function getHotelBookmark(hotelId) {
+    return bookmarks.find((item) => String(item.hotelId) === String(hotelId));
+  }
+
+  async function toggleHotelBookmark(hotel) {
+    const existing = getHotelBookmark(hotel.id);
+    if (existing) {
+      if (!(await deleteBookmark(existing.id))) return;
+      toast(`Removed “${hotel.name}” from Bookmarks`, { id: `bm-${hotel.id}` });
+      return;
+    }
+    const created = await createBookmark({
+      hotelId: hotel.id,
+      hotelName: hotel.name,
+      cityName: hotel.city,
+      country: hotel.country,
+      countryCode: hotel.countryCode,
+      latitude: String(hotel.latitude),
+      longitude: String(hotel.longitude),
+      host_location: `${hotel.name}, ${hotel.city}`,
+    });
+    if (!created) return;
+    toast.success(`Added “${hotel.name}” to Bookmarks`, { id: `bm-${hotel.id}` });
   }
 
   return (
@@ -140,6 +171,8 @@ function BookmarkListProvider({ children }) {
         currentBookmark,
         createBookmark,
         deleteBookmark,
+        getHotelBookmark,
+        toggleHotelBookmark,
       }}
     >
       {children}

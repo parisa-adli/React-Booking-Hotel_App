@@ -2366,3 +2366,33 @@ main:focus {
   font-size: var(--fs-sm);
   border-radius: var(--radius-md) !important;
 }
+
+.bookmarkList .hotelCard--compact {
+  width: 100%;
+  margin-bottom: var(--space-3);
+  padding: var(--space-2);
+  border: 1px solid var(--border-strong);
+}
+
+.bookmarkList .hotelCard--compact .hotelCardBody {
+  flex: 1;
+}
+
+.bookmarkList .hotelCard--compact.is-active {
+  outline: none;
+  border: 2px solid var(--primary-600);
+  background-color: var(--primary-100);
+}
+
+/* Sits above the card's stretched link so it stays clickable. */
+.hotelCardAction {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.hotelCardAction .trash {
+  color: var(--rose-600);
+  width: 1.15rem;
+  height: 1.15rem;
+}

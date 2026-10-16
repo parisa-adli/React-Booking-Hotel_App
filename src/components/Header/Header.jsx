@@ -2,13 +2,13 @@ import { MdLogout } from "react-icons/md";
 import { HiOutlineHeart, HiOutlineLocationMarker, HiOutlineUserCircle } from "react-icons/hi";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
-import { useFavorites } from "../context/FavoritesProvider";
+import { useBookmark } from "../context/BookmarkListContext";
 import SearchBar from "../SearchBar/SearchBar";
 
 function Header() {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  const { ids } = useFavorites();
+  const { bookmarks } = useBookmark();
 
   return (
     <header className={`header ${isHome ? "header--home" : ""}`}>
@@ -20,18 +20,18 @@ function Header() {
       </Link>
       {!isHome && <SearchBar />}
       <nav className="headerNav" aria-label="Account">
-        <NavLink to="/saved" className="headerLink">
-          <HiOutlineHeart aria-hidden="true" />
-          Saved
-          {ids.length > 0 && (
-            <span className="countBadge" aria-label={`${ids.length} saved`}>
-              {ids.length}
-            </span>
-          )}
-        </NavLink>
-        <NavLink to="/bookmark" className="headerLink">
+        <NavLink to="/hotels" className="headerLink">
           <HiOutlineLocationMarker aria-hidden="true" />
           Places
+        </NavLink>
+        <NavLink to="/bookmark" className="headerLink">
+          <HiOutlineHeart aria-hidden="true" />
+          Bookmarks
+          {bookmarks.length > 0 && (
+            <span className="countBadge" aria-label={`${bookmarks.length} bookmarks`}>
+              {bookmarks.length}
+            </span>
+          )}
         </NavLink>
         <User />
       </nav>
