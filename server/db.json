@@ -7191,17 +7191,6 @@
   ],
   "bookmarks": [
     {
-      "hotelId": "32485135",
-      "hotelName": "Sleep in a Hub!",
-      "cityName": "Amsterdam",
-      "country": "Netherlands",
-      "countryCode": "NL",
-      "latitude": "52.36798",
-      "longitude": "4.86633",
-      "host_location": "Sleep in a Hub!, Amsterdam",
-      "id": 1
-    },
-    {
       "hotelId": "45045046",
       "hotelName": "Eco-friendly Double Room by Vondelpark",
       "cityName": "Amsterdam",
@@ -7244,6 +7233,17 @@
       "longitude": "-9.14051",
       "host_location": "Rossio Garden Hotel, Lisbon",
       "id": 5
+    },
+    {
+      "hotelId": "50383849",
+      "hotelName": "Citiez Hotel Amsterdam: Small Double Room",
+      "cityName": "Amsterdam",
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "latitude": "52.35831",
+      "longitude": "4.80335",
+      "host_location": "Citiez Hotel Amsterdam: Small Double Room, Amsterdam",
+      "id": 6
     }
   ]
 }

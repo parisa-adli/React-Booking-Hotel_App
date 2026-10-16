@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HiHeart, HiOutlineHeart, HiStar } from "react-icons/hi";
 import { MdHotel } from "react-icons/md";
+import { useAuth } from "../context/AuthProvider";
 import { useBookmark } from "../context/BookmarkListContext";
 import {
   formatPrice,
@@ -59,15 +60,23 @@ export function Rating({ rating, reviewCount, showCount = false }) {
 
 export function FavoriteButton({ hotel, className = "" }) {
   const { getHotelBookmark, toggleHotelBookmark } = useBookmark();
-  const saved = Boolean(getHotelBookmark(hotel.id));
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const { pathname, search } = useLocation();
+  const saved = isAuthenticated && Boolean(getHotelBookmark(hotel.id));
   return (
     <button
       type="button"
       className={`favoriteBtn ${saved ? "is-saved" : ""} ${className}`}
       aria-pressed={saved}
-      aria-label={`Bookmark ${hotel.name}`}
+      aria-label={isAuthenticated ? `Bookmark ${hotel.name}` : `Log in to bookmark ${hotel.name}`}
       onClick={(event) => {
         event.preventDefault();
+        // Logged-out visitors log in first, then come back to this page.
+        if (!isAuthenticated) {
+          navigate("/login", { state: { from: pathname + search } });
+          return;
+        }
         toggleHotelBookmark(hotel);
       }}
     >

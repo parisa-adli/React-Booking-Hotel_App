@@ -7,6 +7,7 @@ import {
 } from "react";
 import api from "../../services/api";
 import toast from "react-hot-toast";
+import { useAuth } from "./AuthProvider";
 
 const BookmarkContext = createContext();
 
@@ -50,6 +51,8 @@ function bookmarkReducer(state, action) {
         bookmarks: state.bookmarks.filter((item) => item.id !== action.payload),
         currentBookmark: null,
       };
+    case "bookmarks/reset":
+      return initialState;
     case "rejected":
       return {
         ...state,
@@ -67,7 +70,14 @@ function BookmarkListProvider({ children }) {
     initialState
   );
 
+  const { isAuthenticated } = useAuth();
+
+  // Bookmarks belong to the logged-in user: load them on login, drop them on logout.
   useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch({ type: "bookmarks/reset" });
+      return;
+    }
     async function fetchBookmarkList() {
       dispatch({ type: "loading" });
       // setCurrentBookmark(null);
@@ -83,7 +93,7 @@ function BookmarkListProvider({ children }) {
       }
     }
     fetchBookmarkList();
-  }, []);
+  }, [isAuthenticated]);
 
   const currentBookmarkId = currentBookmark?.id;
   const getBookmark = useCallback(async (id) => {

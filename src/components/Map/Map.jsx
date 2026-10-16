@@ -1,4 +1,5 @@
 import {
+  CircleMarker,
   MapContainer,
   Marker,
   Popup,
@@ -14,11 +15,15 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdMyLocation } from "react-icons/md";
+import toast from "react-hot-toast";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import useUrlLocation from "../../hooks/useUrlLocation";
 import { formatPrice } from "../../services/hotels";
 
-// Vite rewrites asset URLs, which breaks Leaflet's icon path detection.
+// Vite rewrites asset URLs, which breaks Leaflet's icon path detection:
+// without this Leaflet prefixes the bundled URLs with a guessed folder and
+// every default pin 404s.
+delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   iconRetinaUrl: markerIcon2x,
@@ -55,8 +60,13 @@ function Map({
   const {
     isLoading: isLoadingPosition,
     position: geoLocationPosition,
+    error: geoLocationError,
     getPosition,
   } = useGeoLocation();
+
+  useEffect(() => {
+    if (geoLocationError) toast.error(`Couldn't get your location: ${geoLocationError}`);
+  }, [geoLocationError]);
 
   useEffect(() => {
     if (variant === "bookmarks" && lat && lng) setMapCenter([Number(lat), Number(lng)]);
@@ -77,33 +87,52 @@ function Map({
 
   const single = variant === "single";
   const initialCenter = single && points[0] ? points[0].position : mapCenter;
+  const hasUrlLocation = Boolean(lat && lng);
+  const hasGeoLocation = Boolean(geoLocationPosition?.lat && geoLocationPosition?.lng);
 
   return (
     <div className={`mapContainer mapContainer--${variant}`} role="region" aria-label={label}>
+      {/* Outside MapContainer so its click doesn't also count as a map click
+          (which would open "Bookmark new location"). */}
+      {!single && (
+        <button
+          type="button"
+          onClick={getPosition}
+          className="getLocation"
+          aria-label="Use your location"
+        >
+          <MdMyLocation aria-hidden="true" />
+          <span>{isLoadingPosition ? "Locating…" : "Your location"}</span>
+        </button>
+      )}
       <MapContainer
         className="map"
         center={initialCenter}
         zoom={single ? 14 : 13}
         scrollWheelZoom={!single}
       >
-        {!single && (
-          <button
-            type="button"
-            onClick={getPosition}
-            className="getLocation"
-            aria-label="Use your location"
-          >
-            <MdMyLocation aria-hidden="true" />
-            <span>{isLoadingPosition ? "Locating…" : "Your location"}</span>
-          </button>
-        )}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
         {variant === "bookmarks" && <DetectClick />}
-        {variant === "bookmarks" && <ChangeCenter position={mapCenter} />}
+        {variant === "bookmarks" && (hasUrlLocation || hasGeoLocation) && (
+          <ChangeCenter position={mapCenter} />
+        )}
+        {variant === "bookmarks" && !hasUrlLocation && !hasGeoLocation && (
+          <FitBounds points={points} />
+        )}
         {variant === "hotels" && <FitBounds points={points} center={geoLocationPosition} />}
+        {hasGeoLocation && (
+          <CircleMarker
+            center={[geoLocationPosition.lat, geoLocationPosition.lng]}
+            radius={8}
+            bubblingMouseEvents={false}
+            pathOptions={{ color: "#ffffff", weight: 3, fillColor: "#13243f", fillOpacity: 1 }}
+          >
+            <Popup>You are here</Popup>
+          </CircleMarker>
+        )}
         <InvalidateSize isVisible={isVisible} />
         {points.map(({ item, position }) => (
           <Marker
@@ -130,7 +159,8 @@ export default Map;
 function ChangeCenter({ position }) {
   const map = useMap();
   useEffect(() => {
-    map.setView(position);
+    // zoom in on the selected place when coming from the zoomed-out overview
+    map.setView(position, Math.max(map.getZoom(), 13));
   }, [map, position]);
   return null;
 }

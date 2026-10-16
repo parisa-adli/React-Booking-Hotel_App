@@ -26,16 +26,16 @@ React 18, React Router 6, Context API + reducers, Axios, React-Leaflet, React-Da
 
 ```bash
 npm install
-npm run server   # json-server on http://localhost:5000 (serves server/db.json)
-npm run dev      # app on http://localhost:5173
+npm run dev      # app on http://localhost:5173 + json-server on http://localhost:5000
 ```
 
-The app reads the API address from `VITE_API_URL` (default `http://localhost:5000`). If port 5000 is taken, run `npx json-server --watch server/db.json --port 5055` and start the app with `VITE_API_URL=http://localhost:5055 npm run dev`, or put the variable in `.env.local` (see `.env.example`).
+The app reads the API address from `VITE_API_URL` (default `http://localhost:5000`). If port 5000 is taken, run `npx json-server --watch server/db.json --port 5055` and start the app alone with `VITE_API_URL=http://localhost:5055 npm run client`, or put the variable in `.env.local` (see `.env.example`).
 
 | Script | What it does |
 |---|---|
-| `npm run dev` | Vite dev server |
-| `npm run server` | json-server with a 500 ms delay |
+| `npm run dev` | Client and server together; Ctrl+C stops both |
+| `npm run client` | Vite dev server only |
+| `npm run server` | json-server only, with a 500 ms delay |
 | `npm run build` / `npm run preview` | Production build and local preview |
 | `npm run lint` | ESLint, zero warnings allowed |
 | `npm test` | Unit tests (search/query mapping, CSV import) |
