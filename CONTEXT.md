@@ -1,6 +1,6 @@
 # CONTEXT — Booking Hotel App
 
-> Working context for people and coding agents. Last reviewed **2026-10-16** against commit `8967690`.
+> Working context for people and coding agents. Last reviewed **2026-10-16**. The MVP in [tasks/TASK.md](tasks/TASK.md) is implemented; §10 records decisions and verified facts from that work.
 >
 > Related documents: [docs/PRD.md](docs/PRD.md) · [docs/design.md](docs/design.md) · [tasks/TASK.md](tasks/TASK.md)
 >
@@ -33,7 +33,7 @@ It started as a learning project (the commit history walks through routing, cont
 | Flags | react-country-flag | `^3.1.0` | Bookmarks |
 | Mock API | json-server | `^0.17.3` (installed 0.17.3) | Listed under `dependencies` |
 | Lint | ESLint 8 + react, react-hooks, react-refresh | | `react/prop-types` is off |
-| Tests | **none** | | No test runner, no CI |
+| Tests | Node built-in test runner (`node --test`) | Node 24 | `npm test`; no test dependencies, no CI |
 | Styling | Global CSS | | `src/index.css` (tokens, reset) + `src/App.css` (all components) |
 
 The local toolchain at review time was Node 24.21 and npm 11.19. No `engines` field is declared.
@@ -49,16 +49,18 @@ npm run dev          # Vite dev server (default http://localhost:5173)
 npm run lint         # eslint, --max-warnings 0
 npm run build        # production build to dist/
 npm run preview      # serve dist/
+npm test             # unit tests (node --test)
+npm run data:import  # rebuild server/db.json from data/raw/ (Inside Airbnb)
 ```
 
 - **Both `server` and `dev` must run** for the app to work.
-- **[Fact]** There are no `.env` files and no `import.meta.env` usage. The API base URL `http://localhost:5000` is hard-coded in three places: `src/components/context/HotelsProvider.jsx`, `src/components/context/BookmarkListContext.jsx`, and `src/components/LocationList/LocationList.jsx`.
+- **[Fact]** The API base URL comes from `VITE_API_URL` (default `http://localhost:5000`) via `src/services/api.js`; see `.env.example`.
+- **[Fact]** Port 5000 can clash with other local servers (on the review machine another project listened on `0.0.0.0:5000`, so `localhost` requests hit the wrong server). Run json-server on another port and set `VITE_API_URL`.
 - **[Fact]** External network calls at runtime:
   - BigDataCloud reverse geocoding (`api.bigdatacloud.net/data/reverse-geocode-client`, keyless client endpoint) in `AddNewBookmark`
   - OSM tiles (`tile.openstreetmap.fr/hot`)
-  - Leaflet CSS from unpkg
+  - Leaflet CSS is now bundled from `node_modules/leaflet` (no unpkg request)
   - Listing images hot-linked from Airbnb's CDN (`a0.muscache.com`)
-- **[Rec]** Introduce `VITE_API_URL` (see TASK P0-2) rather than more hard-coded URLs.
 
 ---
 
@@ -208,3 +210,32 @@ Airbnb has **no public API**. Access is partner-only, and its terms prohibit scr
 | Q5 | Add a test runner (Vitest + Testing Library)? | Yes, as TASK P0-4. It requires approval because it changes `package.json`. |
 | Q6 | Visual reference: the Dribbble shot could not be loaded for inspection. | Treat design.md's reference-derived items as unverified until someone compares them with the shot. |
 | Q7 | README.md (commit `8967690`) lists `src/context/` and `src/pages/` folders that don't exist (contexts live in `src/components/context/`), uses a placeholder clone URL, and states an MIT license with no LICENSE file. | Correct the README in TASK P10-2; add a LICENSE file if MIT is intended. |
+
+---
+
+## 10. Implementation notes (2026-10-16)
+
+### 10.1 Decisions (closes §9 Q1–Q5)
+
+| Q | Decision |
+|---|---|
+| Q1 | Commit a **curated sample**: 25 listings per city, 100 in total (≈ 238 KB), essential fields only, with `server/ATTRIBUTION.md`. Raw downloads stay in git-ignored `data/raw/`. The owner may still choose to git-ignore `db.json` instead. |
+| Q2 | No hosted deployment yet; the app still needs json-server. |
+| Q3 | Favorites persist in `localStorage` (`stays.favorites.v1`), not behind login. |
+| Q4 | Amsterdam, Barcelona, Lisbon (EUR) and London (GBP). |
+| Q5 | Node's built-in test runner instead of Vitest, so no new dependencies. Component tests were replaced by a scripted headless-Chrome pass (see TASK P10). |
+
+### 10.2 Verified data facts (replaces the §5.1 assumptions)
+
+- `price` is a string like `"$97.00"` with a `$` prefix in **every** city; the amount is in local currency, so currency comes from `scripts/cities.config.json`. About 40% of rows have no price.
+- `review_scores_rating` is on a 0–5 scale (max 5 in Amsterdam and London).
+- `amenities` is a JSON-encoded string array.
+- `instant_bookable` is **empty in every row** (Amsterdam and London checked), so the "Instant bookable" filter (PRD FR-FILT-5) was dropped.
+- `picture_url` points at full-size originals (often 1–3 MB). The same path under `https://a0.muscache.com/im/pictures/…?im_w=720` returns about 30 KB, so the UI rewrites URLs at display time (`imageSrc` and `imageSrcSet` in `src/services/hotels.js`); the data itself is unchanged.
+- json-server 0.17 checks (PRD §10): `X-Total-Count` is exposed cross-origin; repeated `roomType=` is OR; `_gte`/`_lte`, boolean flags, multi-field `_sort` and `id=` batches work; a missing id returns 404. Null ordering is moot because the import only keeps listings with a price and a rating.
+
+### 10.3 Known issues status (§7)
+
+Fixed: 1 (cancelled requests), 2 (auth initial state), 3 (`SingleBookmark` loading), 4 (undefined CSS vars), 5 (login: password field, autocomplete, error message, no unused import), 6 (focus rings and keyboard popovers), 7 (`ChangeCenter` in an effect; click-to-bookmark only on the Places map), 8 (effect deps), 9 (guests, not rooms, drive capacity; prices use the listing currency), 10 (contrast tokens), 11 (bookmark ids compared as strings).
+
+Remaining: hotel ids are strings and bookmark ids are numbers (both work); the fake login is still in-memory and resets on reload.

@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 
-export default function useOutsideClick(ref, exceptionId, cb) {
+// Calls `cb` on a pointer press outside `ref`. Presses on the element with
+// id `exceptionId` (usually the toggle button) are ignored.
+export default function useOutsideClick(ref, exceptionId, cb, enabled = true) {
   useEffect(() => {
-      function handleOutsideClick(event) {
-        // console.log(event.target);
+    if (!enabled) return;
+    function handleOutsideClick(event) {
+      const exception = exceptionId && document.getElementById(exceptionId);
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
-        event.target.id !== exceptionId
+        !(exception && exception.contains(event.target))
       ) {
         cb();
       }
@@ -17,6 +20,5 @@ export default function useOutsideClick(ref, exceptionId, cb) {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [ref, cb]);
+  }, [ref, exceptionId, cb, enabled]);
 }
- 

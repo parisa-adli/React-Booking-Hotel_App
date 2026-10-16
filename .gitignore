@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Inside Airbnb raw downloads (see scripts/cities.config.json)
+data/raw/

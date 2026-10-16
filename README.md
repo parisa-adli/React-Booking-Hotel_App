@@ -1,111 +1,79 @@
-```markdown
-# Booking Hotel App
+# Booking Hotel App — "Stays"
 
-This is a hotel booking application built with **React** and **Vite**. The app allows users to search for hotels, view details, bookmark locations, and manage user authentication. It also includes interactive maps and geolocation features.
+A hotel and short-stay discovery app built with **React** and **Vite**. Search a destination, filter and sort stays, see them on a map, open the details and save favourites. Bookmarked map places and a demo login are included too.
+
+Listing data is a static snapshot from [Inside Airbnb](https://insideairbnb.com/get-the-data/) (CC BY 4.0). **This is a demo:** it does not take bookings, and prices are snapshot prices, not live rates.
 
 ---
 
 ## Features
 
-1. **React Router**  
-   For navigation and routing between pages.
+1. **Search:** destination combobox (from the cities in the data), check-in/check-out range and guest steppers. All search state lives in the URL, so results can be shared and reloaded.
+2. **Results:** image-led cards, a list + map split view on desktop, a map toggle on mobile, and price-pill markers.
+3. **Filters & sorting:** price range, type of place, guest rating, amenities, and sort by price or rating. Pagination reads `X-Total-Count` from json-server.
+4. **Details:** photo, key facts, highlights, description, amenities, host, location map and a price card with an estimated total.
+5. **Favourites:** heart any stay; saved stays persist in `localStorage` and are listed on `/saved`.
+6. **Bookmarks:** click the map to bookmark a place (requires the demo login).
+7. **States & accessibility:** skeletons, empty and error states with Retry, image fallbacks, visible focus, keyboard-operable popovers and dialogs, and a mobile bottom navigation.
 
-2. **Context API & Reducers**  
-   For state management (e.g., bookmarks, hotels, and authentication).
+## Tech
 
-3. **Axios**  
-   For making HTTP requests to the backend API.
-
-4. **React-Leaflet**  
-   For interactive maps and marker management.
-
-5. **React-Hot-Toast**  
-   For displaying notifications.
-
-6. **React-Date-Range**  
-   For date selection in hotel searches.
-
-7. **Custom Hooks**  
-   Includes reusable hooks like `useGeoLocation`, `useFetch`, and `useOutsideClick`.
-
-8. **Protected Routes**  
-   Ensures only authenticated users can access certain pages.
-
-9. **JSON Server**  
-   Simulates a backend API for development purposes.
-
-10. **ESLint**  
-    For maintaining code quality and consistency.
+React 18, React Router 6, Context API + reducers, Axios, React-Leaflet, React-Date-Range, React-Hot-Toast, react-icons, JSON Server 0.17, ESLint, plus Node's built-in test runner for unit tests.
 
 ---
 
-## Project Structure
+## Getting started
+
+```bash
+npm install
+npm run server   # json-server on http://localhost:5000 (serves server/db.json)
+npm run dev      # app on http://localhost:5173
+```
+
+The app reads the API address from `VITE_API_URL` (default `http://localhost:5000`). If port 5000 is taken, run `npx json-server --watch server/db.json --port 5055` and start the app with `VITE_API_URL=http://localhost:5055 npm run dev`, or put the variable in `.env.local` (see `.env.example`).
+
+| Script | What it does |
+|---|---|
+| `npm run dev` | Vite dev server |
+| `npm run server` | json-server with a 500 ms delay |
+| `npm run build` / `npm run preview` | Production build and local preview |
+| `npm run lint` | ESLint, zero warnings allowed |
+| `npm test` | Unit tests (search/query mapping, CSV import) |
+| `npm run data:import` | Rebuild `server/db.json` from downloaded Inside Airbnb files |
+
+## Updating the data
+
+1. Download each city's `listings.csv.gz` **once** from the `sourceUrl` values in `scripts/cities.config.json` into the matching `data/raw/<city>/<date>/` folder (git-ignored).
+2. Run `npm run data:import`. It keeps the top 25 listings per city, normalizes them and preserves `bookmarks`.
+
+See `server/ATTRIBUTION.md` for the source, license and the transformations applied.
+
+---
+
+## Project structure
 
 ```
 src/
-├── components/       # Reusable React components
-├── context/          # Context providers for state management
-├── hooks/            # Custom React hooks
-├── pages/            # Application pages
-├── App.jsx           # Main application component
-├── main.jsx          # Entry point
-├── App.css           # Global styles
-server/
-├── db.json           # Mock database for JSON Server
-public/
-├── vite.svg          # Static assets
+├── components/
+│   ├── <Name>/<Name>.jsx   # one folder per component (HotelCard, SearchBar, FilterSheet, …)
+│   └── context/            # Auth, Cities, Favorites, Bookmarks and Hotels providers
+├── hooks/                  # useFetch, useDismiss, useMediaQuery, useGeoLocation, …
+├── services/               # API client, search ↔ URL ↔ query mapping, formatters (+ tests)
+├── App.jsx                 # providers, layout and routes
+├── App.css / index.css     # component styles / design tokens
+scripts/                    # Inside Airbnb import (CSV parser, normalizer, tests)
+server/db.json              # json-server data: hotels, cities, bookmarks
+docs/                       # PRD and design spec
+tasks/TASK.md               # implementation plan
+CONTEXT.md                  # architecture notes for contributors
 ```
 
 ---
 
-## Installation
+## Data & attribution
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/booking-hotel-app.git
-   cd booking-hotel-app
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-4. Start the mock backend server:
-
-   ```bash
-   npm run server
-   ```
-
-5. Open the app in your browser at:
-
-   ```
-   http://localhost:5173
-   ```
-
----
-
-## Tools and Libraries
-
-- **React**: Frontend framework.
-- **Vite**: Fast build tool for modern web projects.
-- **React Router**: For routing and navigation.
-- **React-Leaflet**: For map integration.
-- **Axios**: For API requests.
-- **React-Hot-Toast**: For notifications.
-- **ESLint**: For linting and code quality.
-
----
+Listing data © [Inside Airbnb](https://insideairbnb.com/), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Photos are served from Airbnb's CDN. Not affiliated with Airbnb.
 
 ## License
 
 This project is licensed under the **MIT License**.
-```

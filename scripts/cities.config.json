@@ -1,0 +1,45 @@
+{
+  "listingsPerCity": 25,
+  "cities": [
+    {
+      "id": "amsterdam",
+      "name": "Amsterdam",
+      "country": "Netherlands",
+      "countryCode": "NL",
+      "currency": "EUR",
+      "snapshotDate": "2026-09-16",
+      "file": "data/raw/amsterdam/2026-09-16/listings.csv.gz",
+      "sourceUrl": "https://data.insideairbnb.com/the-netherlands/north-holland/amsterdam/2026-09-16/data/listings.csv.gz"
+    },
+    {
+      "id": "barcelona",
+      "name": "Barcelona",
+      "country": "Spain",
+      "countryCode": "ES",
+      "currency": "EUR",
+      "snapshotDate": "2026-09-17",
+      "file": "data/raw/barcelona/2026-09-17/listings.csv.gz",
+      "sourceUrl": "https://data.insideairbnb.com/spain/catalonia/barcelona/2026-09-17/data/listings.csv.gz"
+    },
+    {
+      "id": "lisbon",
+      "name": "Lisbon",
+      "country": "Portugal",
+      "countryCode": "PT",
+      "currency": "EUR",
+      "snapshotDate": "2026-09-19",
+      "file": "data/raw/lisbon/2026-09-19/listings.csv.gz",
+      "sourceUrl": "https://data.insideairbnb.com/portugal/lisbon/lisbon/2026-09-19/data/listings.csv.gz"
+    },
+    {
+      "id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "countryCode": "GB",
+      "currency": "GBP",
+      "snapshotDate": "2026-09-17",
+      "file": "data/raw/london/2026-09-17/listings.csv.gz",
+      "sourceUrl": "https://data.insideairbnb.com/united-kingdom/england/london/2026-09-17/data/listings.csv.gz"
+    }
+  ]
+}

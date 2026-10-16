@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | Draft v1 · 2026-10-16 |
+| Status | v1 · implemented 2026-10-16 (deviations noted inline as **Built:**) |
 | Related | [PRD.md](PRD.md) (FR IDs referenced below) · [CONTEXT.md](../CONTEXT.md) · [TASK.md](../tasks/TASK.md) |
 | Stack constraint | React 18 + global CSS (`src/index.css` tokens, `src/App.css` components), react-icons, react-date-range, react-leaflet. **No new UI or CSS libraries; no web fonts.** |
 
@@ -152,6 +152,8 @@ Mobile                              Desktop (≥1024)
 
 Mobile order: hero image (4:3, full-bleed, with back and heart buttons overlaid as 44 px circular white buttons) → title block → key facts row → highlights → description (clamped to 6 lines + "Read more") → amenities (10 + "Show all" dialog) → host → location mini-map (non-interactive until tapped) → **sticky bottom bar** with price/night + "Reserve — demo only".
 
+**Built:** Details is its own full-width route (no results map beside it) on every size, with the location mini-map inside the page.
+
 Desktop: two columns. On the left, content (max 680 px). On the right, a **sticky price card** (top 96 px): price/night (snapshot), date and guest summary (editable, which opens the search popovers), estimated total, disabled CTA, and helper text "Demo — this app does not take bookings. Prices are a snapshot from <date>."
 
 ### 4.4 Saved (FR-FAV-3)
@@ -190,6 +192,7 @@ Component file placement follows the repo convention `src/components/<Name>/<Nam
 - **Dates:** the trigger is a `<button aria-haspopup="dialog">` with the label "12 Nov – 15 Nov" or "Add dates". The popover is a `role="dialog"` containing react-date-range `DateRange` (desktop `months={2}`, mobile 1). Footer: "Clear" and "Done". Theme overrides map `rdrSelected/InRange` colors to `--primary-600`.
 - **Guests:** a dialog with steppers (repo `OptionItem`): Adults (min 1), Children (min 0). Rooms are removed. Each stepper button has `aria-label="Decrease adults"` and the count is `aria-live`.
 - **Mobile:** the collapsed pill opens a full-screen sheet (`role="dialog" aria-modal="true"`) with stacked sections and sticky "Clear all" / "Search" buttons.
+- **Built:** the full pill shows at ≥ 1024 px; below that the compact pill opens the sheet. All modals use the native `<dialog>` element with `showModal()` (focus containment, inert background, Esc and focus return come from the browser). On `/` the search sits in the hero instead of the header.
 - `useOutsideClick` stays for pointer users. Esc and focus-return are added for keyboard users.
 
 ### 5.3 FilterBar, FilterChips, FilterSheet (new)
@@ -200,7 +203,7 @@ Component file placement follows the repo convention `src/components/<Name>/<Nam
   2. Type of place: chips (multi).
   3. Rating: segmented radio group Any · 4.0+ · 4.5+ · 4.8+.
   4. Amenities: checkboxes in 2 columns, with icons from react-icons (`MdWifi`, `MdKitchen`, `MdAcUnit`, `MdLocalLaundryService`, `MdLocalParking`, `MdLaptop`).
-  5. Booking options: "Instant bookable" switch (`role="switch"`).
+  5. ~~Booking options: "Instant bookable" switch~~ (dropped: no data, see PRD FR-FILT-5).
   - Footer: "Clear all" (text button) and "Show N stays" (primary; N from a debounced count query with `_limit=1`).
 - Changes apply on "Show" in the sheet and immediately for quick chips. Both reset `page` to 1 (FR-FILT-6).
 
@@ -280,13 +283,13 @@ A native `<select>` styled as a chip (accessible by default) with the options fr
 | SearchBar | `src/components/Header/Header.jsx` (`.headerSearch`, `GuestOptionList`, `OptionItem`) | Refactor in place; extract `SearchBar/` if the file grows over ~250 lines |
 | Header / nav / bottom tab bar | `Header.jsx` (`NavLink`, `User`) | Add `<header>` and `<nav>`; add the `BottomNav/` component |
 | HotelCard | Markup in `Hotels.jsx` (`.searchItem`) and `LocationList.jsx` (`.locationItem`) | New `HotelCard/HotelCard.jsx` used by both |
-| Home / Explore | `LocationList/LocationList.jsx` (`.nearbyLocation`, `.locationList`) | Rework into hero + cities + top rated |
+| Home / Explore | `LocationList/LocationList.jsx` (`.nearbyLocation`, `.locationList`) | Replaced by `Explore/Explore.jsx` (hero + cities + guest favourites) |
 | Results list | `Hotels/Hotels.jsx` (`.searchList`) | Use HotelCard, filter bar, pagination |
 | Results layout + map | `AppLayout/AppLayout.jsx` (`.appLayout`, `.sidebar`), `Map/Map.jsx` | Mobile-first split; map toggle; price markers; disable click-to-bookmark on hotels |
-| Details | `SingleHotel/SingleHotel.jsx` (`.room`, `.roomDetail`) | Rebuild per §4.3 |
+| Details | `SingleHotel/SingleHotel.jsx` (`.room`, `.roomDetail`) | Rebuilt per §4.3; route moved out of `AppLayout` |
 | Filters / sort / pagination | — | New `FilterBar/`, `FilterSheet/`, `Pagination/` |
 | Favorites | — (pattern from `context/BookmarkListContext.jsx`) | New `context/FavoritesProvider.jsx`, `Saved/Saved.jsx` |
-| States | `Loader.jsx` | New `Skeleton/`, `EmptyState/`, `ErrorState/` |
+| States | `Loader.jsx` | `States/States.jsx` (`StateMessage`, `ErrorState`, skeletons); `Loader` kept for bookmarks |
 | Buttons and forms | `.btn`, `.btn--primary`, `.btn--back`, `.formControl` in `App.css` | Restyle per §5.8; keep class names |
 | Date picker theme | `react-date-range/dist/theme/default.css` import in `Header.jsx` | Override colors in `App.css` |
 | Icons | react-icons (`hi`, `md`) | Reuse; no new icon set |

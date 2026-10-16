@@ -3,8 +3,9 @@ import { LoaderIcon } from "react-hot-toast";
 function Loader() {
   return (
     <div
+      role="status"
       style={{
-        color: "var(--slate-300)",
+        color: "var(--text-600)",
         display: "flex",
         alignItems: "center",
         gap: "1rem",

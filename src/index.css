@@ -1,35 +1,136 @@
+/* Design tokens: see docs/design.md §2. Existing names are kept. */
 :root {
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
-    Helvetica Neue, sans-serif;
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+
+  /* color */
   --bg-color: #f3f4f6;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --text-900: #111827;
   --text-700: #374151;
-  --text-400: #94a3b8;
-  --text-500: #64748b;
-  --text-100: #f1f5f9;
+  --text-600: #475569;
+  --text-500: #64748b; /* meta text on white only */
+  --text-400: #94a3b8; /* icons, placeholders, disabled: never body text */
   --text-300: #d1d5db;
+  --text-100: #f1f5f9;
   --white: #fff;
+  --border: #e2e8f0;
+  --border-strong: #64748b;
   --primary-700: #4338ca;
   --primary-600: #4f46e5;
   --primary-100: #e0e7ff;
   --rose-500: #f43f5e;
+  --rose-600: #e11d48;
+  --amber-700: #b45309;
+  --success-700: #15803d;
+  --danger-700: #b91c1c;
+  --scrim: rgb(17 24 39 / 0.55);
+  --image-gradient: linear-gradient(to top, rgb(17 24 39 / 0.72), rgb(17 24 39 / 0) 65%);
+
+  /* type */
+  --fs-display: 2rem;
+  --fs-h1: 1.5rem;
+  --fs-h2: 1.25rem;
+  --fs-h3: 1.0625rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+
+  /* spacing (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --gutter: var(--space-4);
+
+  /* shape */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+  --shadow-1: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.08);
+  --shadow-2: 0 4px 12px rgb(15 23 42 / 0.1);
+  --shadow-3: 0 12px 32px rgb(15 23 42 / 0.18);
+
+  /* motion */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* layout */
+  --header-h: 64px;
+  --bottom-nav-h: 64px;
+  --content-max: 1280px;
 }
-body {
-  min-height: 100vh;
-  padding: 1rem;
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: var(--space-6);
+    --bottom-nav-h: 0px;
+  }
 }
+
+@media (min-width: 1024px) {
+  :root {
+    --fs-display: 2.75rem;
+    --fs-h1: 1.75rem;
+    --gutter: var(--space-8);
+    --header-h: 88px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   list-style: none;
-  outline: none;
   border: none;
 }
 
+html {
+  scroll-padding-top: calc(var(--header-h) + var(--space-4));
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--surface);
+  color: var(--text-700);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom, 0px));
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-900);
+  line-height: 1.25;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
 button {
-  outline: none;
-  border: none;
+  font: inherit;
+  color: inherit;
+}
+
+button {
   background-color: transparent;
   cursor: pointer;
 }
@@ -42,4 +143,40 @@ a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Keyboard focus is always visible (replaces the old global outline: none). */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary-600);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

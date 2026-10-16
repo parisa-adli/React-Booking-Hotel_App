@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Status | Draft v1 (planning) |
+| Status | v1, MVP implemented 2026-10-16 (see [CONTEXT.md §10](../CONTEXT.md#10-implementation-notes-2026-10-16)) |
 | Date | 2026-10-16 |
 | Repo state | `main` @ `8967690` |
 | Related | [CONTEXT.md](../CONTEXT.md) · [design.md](design.md) · [TASK.md](../tasks/TASK.md) |
@@ -111,7 +111,7 @@ Priority: **M** = must (MVP), **S** = should, **C** = could.
 | FR-FILT-2 | M | Room type (Entire home/apt, Private room, Hotel room, Shared room) → `roomType=`; multiple values allowed. |
 | FR-FILT-3 | M | Minimum rating (Any, 4.0+, 4.5+, 4.8+) → `rating_gte`. |
 | FR-FILT-4 | S | Amenities: Wi-Fi, Kitchen, Air conditioning, Washer, Free parking, Dedicated workspace → boolean flags precomputed at import (`hasWifi=true`, …). |
-| FR-FILT-5 | S | Instant bookable toggle → `instantBookable=true` (labeled as dataset attribute, not a booking feature). |
+| FR-FILT-5 | — | ~~Instant bookable toggle~~ **Dropped:** `instant_bookable` is empty in every row of the 2026 snapshots. |
 | FR-FILT-6 | M | Filters live in the URL, show an active count, and can be cleared with one action; changing a filter resets to page 1. |
 
 **Acceptance:** applying 4.5+ and Kitchen leaves only listings with `rating ≥ 4.5 && hasKitchen`, and the URL contains `rating_gte=4.5&hasKitchen=true`.
@@ -135,7 +135,7 @@ Priority: **M** = must (MVP), **S** = should, **C** = could.
 | ID | Pri | Requirement |
 |---|---|---|
 | FR-DET-1 | M | `/hotels/:id` shows the hero image, name, rating + review count, neighbourhood · city, property and room type, guests/bedrooms/beds/bathrooms, description (sanitized: strip HTML, see §11), amenities (top 10 + "Show all"), host first name + Superhost badge, minimum nights, location map. |
-| FR-DET-2 | M | A sticky price card shows the snapshot price per night, the dates and guests from the URL, an *estimated* total, and a **disabled "Reserve — demo only"** button with an explanation. |
+| FR-DET-2 | M | A sticky price card (a bottom bar on mobile) shows the snapshot price per night, the dates and guests from the URL, an *estimated* total, and a **disabled "Reserve — demo only"** button with an explanation. |
 | FR-DET-3 | S | "View on Airbnb" external link (`listingUrl`, `rel="noopener noreferrer"`), clearly external. |
 | FR-DET-4 | M | An unknown id shows a not-found state with a link back to results. |
 
@@ -225,7 +225,6 @@ Priority: **M** = must (MVP), **S** = should, **C** = could.
 | `currency` | string | import config | ISO 4217 per city (EUR, GBP, …). **[Assume]** CSV symbol is not reliable |
 | `rating` | number\|null | `review_scores_rating` | 0–5, one decimal. Legacy 0–100 → /20 |
 | `reviewCount` | number | `number_of_reviews` | |
-| `instantBookable` | boolean | `instant_bookable` | `"t"` → true |
 | `minimumNights` | number | `minimum_nights` | |
 | `hostName` | string | `host_name` | First name only |
 | `isSuperhost` | boolean | `host_is_superhost` | |
@@ -291,7 +290,7 @@ Confidence: Inside Airbnb, LiteAPI pricing and the Hotelbeds quota come from the
 
 The UI→query mapping lives in a pure function `buildHotelQuery(searchParams)` in `src/services/hotels.js` (unit-tested).
 
-**[Assume] Verify in P4-1:** `X-Total-Count` is exposed to the browser via CORS by json-server 0.17; repeated keys behave as OR; null values in `_sort`.
+**Verified (TASK P5-1):** `X-Total-Count` is exposed via CORS by json-server 0.17; repeated keys behave as OR; null values can't occur in `price`/`rating` because the import requires both.
 
 ### Error handling
 

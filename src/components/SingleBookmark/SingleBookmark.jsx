@@ -6,20 +6,20 @@ import ReactCountryFlag from "react-country-flag";
 
 function SingleBookmark() {
   const { id } = useParams();
-  const { getBookmark, isLoadingCurrBookmark, currentBookmark } = useBookmark();
+  const { getBookmark, isLoading, currentBookmark } = useBookmark();
   const navigate = useNavigate();
   useEffect(() => {
     getBookmark(id);
-  }, [id]);
+  }, [id, getBookmark]);
 
-  if (isLoadingCurrBookmark || !currentBookmark) return <Loader />;
+  if (isLoading || !currentBookmark) return <Loader />;
 
   return (
     <div>
-      <button onClick={() => navigate(-1)} className="btn btn--back">
+      <button type="button" onClick={() => navigate(-1)} className="btn btn--back" aria-label="Back">
         &larr;
       </button>
-      <h2 className="h2Titles">{currentBookmark.cityName}</h2>
+      <h1 className="pageTitle">{currentBookmark.cityName}</h1>
       <div className="bookmarkItem">
         <div>
           <ReactCountryFlag svg countryCode={currentBookmark.countryCode} />

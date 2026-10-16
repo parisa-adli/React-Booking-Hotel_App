@@ -1,50 +1,85 @@
 import { Toaster } from "react-hot-toast";
 import "./App.css";
+import { Link, Route, Routes } from "react-router-dom";
 import Header from "./components/Header/Header";
-import LocationList from "./components/LocationList/LocationList";
-import { Route, Routes } from "react-router-dom";
+import BottomNav from "./components/BottomNav/BottomNav";
+import Footer from "./components/Footer/Footer";
+import Explore from "./components/Explore/Explore";
 import AppLayout from "./components/AppLayout/AppLayout";
 import Hotels from "./components/Hotels/Hotels";
-import HotelsProvider from "./components/context/HotelsProvider";
 import SingleHotel from "./components/SingleHotel/SingleHotel";
+import Saved from "./components/Saved/Saved";
 import BookmarkLayout from "./components/BookmarkLayout/BookmarkLayout";
-import BookmarkListProvider from "./components/context/BookmarkListContext";
 import Bookmark from "./components/Bookmark/Bookmark";
 import SingleBookmark from "./components/SingleBookmark/SingleBookmark";
 import AddNewBookmark from "./components/AddNewBookmark/AddNewBookmark";
 import Login from "./components/Login/Login";
-import AuthContextProvider from "./components/context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { StateMessage } from "./components/States/States";
+import AuthContextProvider from "./components/context/AuthProvider";
+import CitiesProvider from "./components/context/CitiesProvider";
+import FavoritesProvider from "./components/context/FavoritesProvider";
+import BookmarkListProvider from "./components/context/BookmarkListContext";
+import HotelsProvider from "./components/context/HotelsProvider";
+
+function NotFound() {
+  return (
+    <div className="page">
+      <StateMessage
+        title="Page not found"
+        headingLevel={1}
+        actions={
+          <Link to="/" className="btn btn--primary">
+            Go to Explore
+          </Link>
+        }
+      />
+    </div>
+  );
+}
 
 function App() {
   return (
     <AuthContextProvider>
-      <BookmarkListProvider>
-        <HotelsProvider>
-          <Toaster />
-          <Header />
-          <Routes>
-            <Route path="/" element={<LocationList />} />
-            <Route path="/hotels" element={<AppLayout />}>
-              <Route index element={<Hotels />} />
-              <Route path=":id" element={<SingleHotel />} />
-            </Route>
-            <Route
-              path="/bookmark"
-              element={
-                <ProtectedRoute>
-                  <BookmarkLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Bookmark />} />
-              <Route path=":id" element={<SingleBookmark />} />
-              <Route path="add" element={<AddNewBookmark />} />
-            </Route>
-            <Route path="login" element={<Login />} />
-          </Routes>
-        </HotelsProvider>
-      </BookmarkListProvider>
+      <CitiesProvider>
+        <FavoritesProvider>
+          <BookmarkListProvider>
+            <HotelsProvider>
+              <Toaster position="top-center" toastOptions={{ className: "toast" }} />
+              <a href="#main" className="skipLink">
+                Skip to content
+              </a>
+              <Header />
+              <main id="main" tabIndex={-1}>
+                <Routes>
+                  <Route path="/" element={<Explore />} />
+                  <Route path="/hotels" element={<AppLayout />}>
+                    <Route index element={<Hotels />} />
+                  </Route>
+                  <Route path="/hotels/:id" element={<SingleHotel />} />
+                  <Route path="/saved" element={<Saved />} />
+                  <Route
+                    path="/bookmark"
+                    element={
+                      <ProtectedRoute>
+                        <BookmarkLayout />
+                      </ProtectedRoute>
+                    }
+                  >
+                    <Route index element={<Bookmark />} />
+                    <Route path=":id" element={<SingleBookmark />} />
+                    <Route path="add" element={<AddNewBookmark />} />
+                  </Route>
+                  <Route path="login" element={<Login />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+              <BottomNav />
+            </HotelsProvider>
+          </BookmarkListProvider>
+        </FavoritesProvider>
+      </CitiesProvider>
     </AuthContextProvider>
   );
 }

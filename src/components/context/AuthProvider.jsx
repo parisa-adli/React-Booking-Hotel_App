@@ -3,7 +3,7 @@ import { createContext, useContext, useReducer } from "react";
 const AuthContext = createContext();
 
 const initialState = {
-  name: null,
+  user: null,
   isAuthenticated: false,
 };
 
@@ -38,8 +38,11 @@ export default function AuthContextProvider({ children }) {
   );
 
   function login(email, password) {
-    if (email === FAKE_USER.email && password === FAKE_USER.password)
+    if (email === FAKE_USER.email && password === FAKE_USER.password) {
       dispatch({ type: "login", payload: FAKE_USER });
+      return true;
+    }
+    return false;
   }
 
   function logout() {
@@ -53,6 +56,8 @@ export default function AuthContextProvider({ children }) {
   );
 }
 
+// Provider and hook share a file by convention.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }

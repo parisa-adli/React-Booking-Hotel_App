@@ -1,15 +1,14 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import toast from "react-hot-toast";
 
 const BookmarkContext = createContext();
-const BASE_URL = "http://localhost:5000";
 
 const initialState = {
   bookmarks: [],
@@ -63,10 +62,6 @@ function bookmarkReducer(state, action) {
 }
 
 function BookmarkListProvider({ children }) {
-  // const [currentBookmark, setCurrentBookmark] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [bookmarks, setBookmarks] = useState([]);
-
   const [{ bookmarks, isLoading, currentBookmark }, dispatch] = useReducer(
     bookmarkReducer,
     initialState
@@ -77,7 +72,7 @@ function BookmarkListProvider({ children }) {
       dispatch({ type: "loading" });
       // setCurrentBookmark(null);
       try {
-        const { data } = await axios.get(`${BASE_URL}/bookmarks`);
+        const { data } = await api.get("/bookmarks");
         dispatch({ type: "bookmarks/loaded", payload: data });
       } catch (error) {
         toast.error(error.message);
@@ -90,12 +85,13 @@ function BookmarkListProvider({ children }) {
     fetchBookmarkList();
   }, []);
 
-  async function getBookmark(id) {
-    if (+id === currentBookmark?.id) return;
+  const currentBookmarkId = currentBookmark?.id;
+  const getBookmark = useCallback(async (id) => {
+    if (String(id) === String(currentBookmarkId)) return;
 
     dispatch({ type: "loading" });
     try {
-      const { data } = await axios.get(`${BASE_URL}/bookmarks/${id}`);
+      const { data } = await api.get(`/bookmarks/${id}`);
       dispatch({ type: "bookmark/loaded", payload: data });
     } catch (error) {
       toast.error(error.message);
@@ -104,12 +100,12 @@ function BookmarkListProvider({ children }) {
         payload: "an Error occurred in loading single bookmark",
       });
     }
-  }
+  }, [currentBookmarkId]);
 
   async function createBookmark(newBookmark) {
     dispatch({ type: "loading" });
     try {
-      const { data } = await axios.post(`${BASE_URL}/bookmarks/`, newBookmark);
+      const { data } = await api.post("/bookmarks", newBookmark);
       dispatch({ type: "bookmark/created", payload: data });
     } catch (error) {
       toast.error(error.message);
@@ -124,7 +120,7 @@ function BookmarkListProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      await axios.delete(`${BASE_URL}/bookmarks/${id}`);
+      await api.delete(`/bookmarks/${id}`);
       dispatch({ type: "bookmark/deleted", payload: id });
     } catch (error) {
       toast.error(error.message);
@@ -153,6 +149,8 @@ function BookmarkListProvider({ children }) {
 
 export default BookmarkListProvider;
 
+// Provider and hook share a file by convention.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useBookmark() {
   return useContext(BookmarkContext);
 }

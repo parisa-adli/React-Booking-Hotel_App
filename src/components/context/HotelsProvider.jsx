@@ -1,39 +1,55 @@
-import { createContext, useContext, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import axios from "axios";
-import toast from "react-hot-toast";
+import {
+  buildHotelQuery,
+  parseSearchParams,
+  toSearchParams,
+} from "../../services/hotels";
 
 const HotelContext = createContext();
-const BASE_URL = "http://localhost:5000";
 
 function HotelsProvider({ children }) {
-  const [currentHotel, setCurrentHotel] = useState(null);
-  const [isLoadingCurrent, setIsLoadingCurrent] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const destination = searchParams.get("destination");
-  const room = JSON.parse(searchParams.get("options"))?.room;
+  const [searchParams] = useSearchParams();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const [activeHotelId, setActiveHotelId] = useState(null);
 
-  const { isLoading, data: hotels } = useFetch(
-    `${BASE_URL}/hotels`,
-    `q=${destination || ""}&accommodates_gte=${room || 1}`
+  const search = useMemo(() => parseSearchParams(searchParams), [searchParams]);
+  const isResultsPage = pathname === "/hotels";
+
+  const {
+    isLoading,
+    data: hotels,
+    total,
+    error,
+    refetch,
+  } = useFetch(isResultsPage ? "/hotels" : null, buildHotelQuery(search));
+
+  // Merges a partial search into the URL. Any change other than the page
+  // itself sends the user back to page 1.
+  const updateSearch = useCallback(
+    (changes, { pathname: target = "/hotels" } = {}) => {
+      const next = { ...search, ...changes };
+      if (!("page" in changes)) next.page = 1;
+      navigate({ pathname: target, search: toSearchParams(next).toString() });
+    },
+    [navigate, search]
   );
-
-  async function getHotel(id) {
-    setIsLoadingCurrent(true);
-    try {
-      const { data } = await axios.get(`${BASE_URL}/hotels/${id}`);
-      setCurrentHotel(data);
-      setIsLoadingCurrent(false);
-    } catch (error) {
-      toast.error(error.message);
-      setIsLoadingCurrent(false);
-    }
-  }
 
   return (
     <HotelContext.Provider
-      value={{ isLoading, hotels, getHotel, isLoadingCurrent, currentHotel }}
+      value={{
+        search,
+        updateSearch,
+        hotels,
+        total: total ?? hotels.length,
+        isLoading,
+        error,
+        refetch,
+        activeHotelId,
+        setActiveHotelId,
+      }}
     >
       {children}
     </HotelContext.Provider>
@@ -42,6 +58,8 @@ function HotelsProvider({ children }) {
 
 export default HotelsProvider;
 
+// Provider and hook share a file by convention.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useHotels() {
   return useContext(HotelContext);
 }

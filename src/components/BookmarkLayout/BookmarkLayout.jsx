@@ -5,11 +5,11 @@ import { useBookmark } from "../context/BookmarkListContext";
 function BookmarkLayout() {
   const { bookmarks } = useBookmark();
   return (
-    <div className="appLayout">
+    <div className="appLayout appLayout--bookmarks has-map">
       <div className="sidebar">
         <Outlet />
       </div>
-      <Map markerLocations={bookmarks} />
+      <Map variant="bookmarks" label="Map of bookmarked places. Click the map to bookmark a place." markerLocations={bookmarks} />
     </div>
   );
 }

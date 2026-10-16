@@ -74,14 +74,14 @@ function AddNewBookmark() {
   };
 
   if (isLoadingGeoCoding) return <Loader />;
-  if (geoCodingError) return <p>{geoCodingError}</p>;
+  if (geoCodingError) return <p className="fieldError" role="alert">{geoCodingError}</p>;
 
   return (
     <div>
-      <h2 className="h2Titles">Bookmark New Location</h2>
+      <h1 className="pageTitle">Bookmark new location</h1>
       <form className="form" onSubmit={handleSubmit}>
         <div className="formControl">
-          <label htmlFor="cityName">city name :</label>
+          <label htmlFor="cityName">City name</label>
           <input
             value={cityName}
             onChange={(e) => setCityName(e.target.value)}
@@ -91,7 +91,7 @@ function AddNewBookmark() {
           />
         </div>
         <div className="formControl">
-          <label htmlFor="country">country :</label>
+          <label htmlFor="country">Country</label>
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
