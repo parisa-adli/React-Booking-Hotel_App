@@ -35,6 +35,8 @@
   --danger-700: #b91c1c;
   --scrim: rgb(19 36 63 / 0.55);
   --image-gradient: linear-gradient(to top, rgb(19 36 63 / 0.72), rgb(19 36 63 / 0) 65%);
+  --text-inverse: #fff; /* text on primary / text-900 fills */
+  --floating-bg: rgb(255 255 255 / 0.92); /* round buttons over photos */
 
   /* type */
   --fs-display: 2rem;
@@ -77,6 +79,41 @@
   --header-h: 64px;
   --bottom-nav-h: 64px;
   --content-max: 1280px;
+}
+
+/* Dark theme: index.html sets data-theme before first paint (saved choice,
+   else the OS setting); the header toggle switches it. Only colors change. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-color: #0a1322;
+  --surface: #0f1b2e;
+  --surface-muted: #15233a;
+  --text-900: #f1f5f9;
+  --text-700: #d3dbe6;
+  --text-600: #b4c0d0;
+  --text-500: #9aa8bb;
+  --text-400: #6f7f96;
+  --text-300: #33445e;
+  --text-100: #1b2a42;
+  --border: #24344d;
+  --border-strong: #7c8aa0;
+  --fill-hover: #1b2a42;
+  --fill-pressed: #24344d;
+  --primary-700: #f7c46f;
+  --primary-600: var(--brand-amber);
+  --primary-100: rgb(242 169 59 / 0.14);
+  --accent-100: rgb(242 169 59 / 0.16);
+  --rose-500: #fb7185;
+  --rose-600: #fb7185;
+  --amber-700: #fbbf24;
+  --success-700: #4ade80;
+  --danger-700: #f87171;
+  --scrim: rgb(0 0 0 / 0.6);
+  --text-inverse: var(--brand-navy);
+  --floating-bg: rgb(15 27 46 / 0.92);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.35);
+  --shadow-2: 0 4px 12px rgb(0 0 0 / 0.4);
+  --shadow-3: 0 12px 32px rgb(0 0 0 / 0.55);
 }
 
 @media (min-width: 640px) {

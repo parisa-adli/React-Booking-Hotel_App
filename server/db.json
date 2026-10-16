@@ -7191,17 +7191,6 @@
   ],
   "bookmarks": [
     {
-      "hotelId": "45045046",
-      "hotelName": "Eco-friendly Double Room by Vondelpark",
-      "cityName": "Amsterdam",
-      "country": "Netherlands",
-      "countryCode": "NL",
-      "latitude": "52.35815",
-      "longitude": "4.85627",
-      "host_location": "Eco-friendly Double Room by Vondelpark, Amsterdam",
-      "id": 2
-    },
-    {
       "hotelId": "50452179",
       "hotelName": "Citiez Hotel Amsterdam: Urban Twin Room",
       "cityName": "Amsterdam",
@@ -7244,6 +7233,17 @@
       "longitude": "4.80335",
       "host_location": "Citiez Hotel Amsterdam: Small Double Room, Amsterdam",
       "id": 6
+    },
+    {
+      "hotelId": "5561974",
+      "hotelName": "1 Bed in shared 16 beds dorm",
+      "cityName": "Barcelona",
+      "country": "Spain",
+      "countryCode": "ES",
+      "latitude": "41.397133",
+      "longitude": "2.176212",
+      "host_location": "1 Bed in shared 16 beds dorm, Barcelona",
+      "id": 7
     }
   ]
 }

@@ -10,7 +10,7 @@
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
   transform: translateY(-200%);
 }
 
@@ -193,7 +193,7 @@ main:focus {
   height: 32px;
   border-radius: 50%;
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
   font-size: var(--fs-sm);
   font-weight: 700;
   flex-shrink: 0;
@@ -231,7 +231,7 @@ main:focus {
 }
 
 .iconBtn--floating {
-  background: rgb(255 255 255 / 0.92);
+  background: var(--floating-bg);
   box-shadow: var(--shadow-1);
 }
 
@@ -352,7 +352,7 @@ main:focus {
 
 .btn--primary {
   background-color: var(--primary-600);
-  color: var(--white);
+  color: var(--text-inverse);
 }
 
 .btn--primary:not(:disabled):hover {
@@ -641,7 +641,7 @@ main:focus {
   align-self: center;
   border-radius: var(--radius-pill);
   background: var(--primary-600);
-  color: var(--white);
+  color: var(--text-inverse);
   font-weight: 600;
   transition: background-color var(--dur-fast) var(--ease),
     padding var(--dur-base) var(--ease);
@@ -1245,7 +1245,7 @@ main:focus {
 
 .segment input:checked + span {
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
 }
 
 .segment input:focus-visible + span {
@@ -1383,7 +1383,7 @@ main:focus {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgb(255 255 255 / 0.92);
+  background: var(--floating-bg);
   color: var(--text-900);
   box-shadow: var(--shadow-1);
   transition: transform var(--dur-fast) var(--ease);
@@ -1687,7 +1687,7 @@ main:focus {
 
 .pageBtn[aria-current="page"] {
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
 }
 
 .pageBtn:disabled {
@@ -1773,7 +1773,7 @@ main:focus {
   padding: 0 var(--space-5);
   border-radius: var(--radius-pill);
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
   font-weight: 600;
   font-size: var(--fs-sm);
   box-shadow: var(--shadow-3);
@@ -1830,7 +1830,7 @@ main:focus {
 .leaflet-marker-icon:hover .pricePin,
 .leaflet-marker-icon:focus-visible .pricePin {
   background: var(--text-900);
-  color: var(--white);
+  color: var(--text-inverse);
   transform: translate(-50%, -50%) scale(1.08);
 }
 
@@ -1898,7 +1898,7 @@ main:focus {
   padding: var(--space-8) var(--space-5) var(--space-6);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  background: var(--text-900);
+  background: var(--brand-navy);
   isolation: isolate;
   /* keep the search popovers above the sections that follow */
   z-index: 10;
@@ -1998,7 +1998,7 @@ main:focus {
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--text-900);
+  background: var(--brand-navy);
   isolation: isolate;
 }
 
@@ -2464,6 +2464,53 @@ main:focus {
 .toast {
   font-size: var(--fs-sm);
   border-radius: var(--radius-md) !important;
+  background: var(--surface) !important;
+  color: var(--text-900) !important;
+}
+
+/* ---------- dark theme: third-party widgets ---------- */
+
+/* OpenStreetMap only serves light tiles; invert them and keep hues. */
+[data-theme="dark"] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9);
+}
+
+[data-theme="dark"] .leaflet-container {
+  background: var(--bg-color);
+}
+
+[data-theme="dark"] .leaflet-popup-content-wrapper,
+[data-theme="dark"] .leaflet-popup-tip,
+[data-theme="dark"] .leaflet-bar a {
+  background: var(--surface);
+  color: var(--text-900);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .leaflet-control-attribution {
+  background: rgb(15 27 46 / 0.8);
+  color: var(--text-500);
+}
+
+[data-theme="dark"] .leaflet-control-attribution a {
+  color: var(--text-700);
+}
+
+/* react-date-range paints selected days white-on-color */
+.datePicker .rdrStartEdge ~ .rdrDayNumber span,
+.datePicker .rdrEndEdge ~ .rdrDayNumber span,
+.datePicker .rdrInRange ~ .rdrDayNumber span {
+  color: var(--text-inverse);
+}
+
+.themeToggle {
+  margin-left: auto;
+}
+
+@media (min-width: 640px) {
+  .themeToggle {
+    margin-left: 0;
+  }
 }
 
 .bookmarkList .hotelCard--compact {
